@@ -41,6 +41,8 @@
                     </div>
                 </div>
 
+                {{--@dump($movie['videos']['results'])--}}
+
                 @if (count($movie['videos']['results']) > 0)
                     <div class="mt-12">
                         <a href="https://youtube.com/watch?v={{ $movie['videos']['results'][0]['key'] }}"class="flex inline-flex items-center bg-orange-500 text-gray-900 rounded font-semibold px-5 py-4 hover:bg-orange-600 transition ease-in-out duration-150">
@@ -84,7 +86,7 @@
         <div class="container mx-auto px-4 py-16">
             <h2 class="text-4xl font-semibold">Images</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                @foreach ($movie['images']['backdrops'] as $image)
+                @foreach ($movie['images']['backdrops'] as $image)  <!-- backdrops ==  decors-->
                     @if ($loop->index < 9)
                         <div class="mt-8">
                             <a href="#">

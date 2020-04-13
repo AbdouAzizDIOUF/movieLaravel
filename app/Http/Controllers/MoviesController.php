@@ -19,7 +19,7 @@ class MoviesController extends Controller
     public function index()
     {
         $popularmovies = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/movie/popular')
+            ->get('https://api.themoviedb.org/3/movie/popular') // Get a list of the current popular movies on TMDb. This list updates daily
             ->json()['results'];
 
         $nowPlayingMovies = Http::withToken(config('services.tmdb.token'))
@@ -27,14 +27,13 @@ class MoviesController extends Controller
             ->json()['results'];
 
         $genresMovies = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/genre/movie/list')
+            ->get('https://api.themoviedb.org/3/genre/movie/list') // Get the list of official genres for movies.
             ->json()['genres'];
 
         $genres = collect($genresMovies)->mapWithKeys(static function ($genre){
             return [$genre['id'] => $genre['name']];
         });
 
-            dump($nowPlayingMovies);
 
         return view('index', [
             'popularmovies' => $popularmovies,
@@ -66,6 +65,7 @@ class MoviesController extends Controller
 
     /**
      * Display the specified resource.
+     * Get the primary information about a movie. => Obtenez les informations principales sur un film.
      *
      * @param  int  $id
      * @return Response
@@ -73,10 +73,9 @@ class MoviesController extends Controller
     public function show($id)
     {
         $movies = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/movie/'.$id.'?append_to_response=credits,videos,images')
+            ->get('https://api.themoviedb.org/3/movie/'.$id.'?append_to_response=credits,videos,images') // "credit => Get the cast and crew for a movie."
             ->json();
 
-        dump($movies);
         return view('show',[
             'movie' => $movies
         ]);
